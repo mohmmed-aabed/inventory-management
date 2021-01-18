@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+
+  <body>
+    <%- include('partials/header') %>
+
+    <div class="container mt-5"><%- include("./partials/flash") %></div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-lg-5 px-5">
+          <!-- New Sale -->
+          <div class="mb-5">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              Add a New Sale
+            </h3>
+            <form action="/sale" method="POST">
+              <label class="form-label" for="bus">Bus Number</label>
+              <select name="sale[bus]" class="form-select mb-3" id="bus">
+                <option value="1">Number 1</option>
+                <option value="2">Number 2</option>
+                <option value="3">Number 3</option>
+                <option value="4">Number 4</option>
+                <option value="5">Number 5</option>
+              </select>
+              <label class="form-label" for="product">Product</label>
+              <select
+                name="sale[productId]"
+                class="form-select mb-3"
+                id="product"
+              >
+                <% for (let stock of stocks) { %>
+                <option value="<%= stock.product._id %>">
+                  <%= stock.product.name %>
+                </option>
+                <% } %>
+              </select>
+              <div class="row">
+                <div class="col">
+                  <label class="form-label" for="quantity">Quantity</label>
+                  <input
+                    class="form-control mb-3"
+                    type="number"
+                    id="quantity"
+                    name="sale[quantity]"
+                    required
+                  />
+                </div>
+                <div class="col">
+                  <label class="form-label" for="price">Price</label>
+                  <input
+                    class="form-control mb-3"
+                    type="number"
+                    id="price"
+                    name="sale[price]"
+                    step="0.01"
+                    required
+                  />
+                </div>
+              </div>
+              <label class="form-label" for="date">Date</label>
+              <input
+                class="form-control mb-4"
+                type="date"
+                id="date"
+                name="sale[date]"
+                required
+              />
+              <button class="btn btn-outline-dark">&nbsp;Submit&nbsp;</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Display The Latest 10 Sales -->
+        <div class="col-lg-7 px-5">
+          <div class="mb-5">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              The Latest 10 Sales
+            </h3>
+            <table class="table table-sm text-center">
+              <thead>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
+                <th scope="col">Profit</th>
+                <th scope="col">Bus</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </thead>
+              <% for (let sale of sales) { %>
+              <tbody>
+                <td>
+                  <a
+                    style="text-decoration: none"
+                    href="/products/<%= sale.product._id %>"
+                    ><%= sale.product.name %></a
+                  >
+                </td>
+                <td><%= sale.quantity %></td>
+                <td><%= sale.price.toFixed(2) %></td>
+                <td><%= sale.total.toFixed(2) %></td>
+                <td><%= sale.date.toDateString().slice(4) %></td>
+                <td><%= sale.profit.toFixed(2) %></td>
+                <td><%= sale.bus %></td>
+                <td>
+                  <form
+                    action="/sale/<%= sale._id %>/<%= sale.product._id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <button class="btn btn-sm btn-outline-danger">
+                      Delete
+                    </button>
+                  </form>
+                </td>
+              </tbody>
+              <% } %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/bootstrab-script') %> <%-
+    include('partials/date-script') %> <%- include('partials/select-script') %>
+  </body>
+</html>

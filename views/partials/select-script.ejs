@@ -1,0 +1,13 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+<script>
+  if (localStorage.getItem("product")) {
+    $("#product option")
+      .eq(localStorage.getItem("product"))
+      .prop("selected", true);
+  }
+
+  $("#product").on("change", function () {
+    localStorage.setItem("product", $("option:selected", this).index());
+  });
+</script>

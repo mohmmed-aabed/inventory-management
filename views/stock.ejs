@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+
+  <body>
+    <%- include('partials/header') %>
+    <div class="container mt-5">
+      <div class="row">
+        <h2 class="display-5 mb-5 text-center">Available Stock</h2>
+        <div class="col-lg-6 px-5">
+          <h3 class="display-6 mb-3" style="color: #2977c9">
+            Sorted By Quantity
+          </h3>
+          <table class="table table-sm text-center">
+            <thead>
+              <th scope="col">Product</th>
+              <th scope="col">Available Quantity</th>
+              <th scope="col">Average Purchase Price</th>
+              <th scope="col">Total</th>
+            </thead>
+            <% for (let stock of stocksByQuantity) { %>
+            <tbody>
+              <td>
+                <a
+                  style="text-decoration: none"
+                  href="/products/<%= stock.product._id %>"
+                  ><%= stock.product.name %></a
+                >
+              </td>
+              <td><%= stock.quantity %></td>
+              <td><%= stock.price.toFixed(2) %></td>
+              <td><%= stock.total.toFixed(2) %></td>
+            </tbody>
+            <% } %>
+          </table>
+        </div>
+        <div class="col-lg-6 px-5">
+          <h3 class="display-6 mb-3" style="color: #2977c9">
+            Sorted Alphabetically
+          </h3>
+          <table class="table table-sm text-center">
+            <thead>
+              <th scope="col">Product</th>
+              <th scope="col">Available Quantity</th>
+              <th scope="col">Average Purchase Price</th>
+              <th scope="col">Total</th>
+            </thead>
+            <% for (let stock of stocksByAlphabetic) { %>
+            <tbody>
+              <td>
+                <a
+                  style="text-decoration: none"
+                  href="/products/<%= stock.product._id %>"
+                  ><%= stock.product.name %></a
+                >
+              </td>
+              <td><%= stock.quantity %></td>
+              <td><%= stock.price.toFixed(2) %></td>
+              <td><%= stock.total.toFixed(2) %></td>
+            </tbody>
+            <% } %>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/bootstrab-script') %>
+  </body>
+</html>

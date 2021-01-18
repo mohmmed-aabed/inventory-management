@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+
+  <body>
+    <%- include('partials/header') %>
+
+    <div class="container mt-5"><%- include("./partials/flash") %></div>
+
+    <div class="container mt-5">
+      <div class="row">
+        <div class="col-lg-5 px-5">
+          <!-- New Product -->
+          <div class="mb-4">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              Add a New Product
+            </h3>
+            <form action="/product" method="POST">
+              <div class="row d-flex align-items-center">
+                <div class="col-9">
+                  <label class="form-label" for="newProduct">New Product</label>
+                  <input
+                    class="form-control mb-4"
+                    type="text"
+                    id="newProduct"
+                    name="newProduct"
+                    required
+                  />
+                </div>
+                <div class="col-3">
+                  <button class="btn btn-outline-dark">
+                    &nbsp;Submit&nbsp;
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- New Purchase -->
+          <div class="mb-5">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              Add a New Purchase
+            </h3>
+            <form action="/purchase" method="POST">
+              <label class="form-label" for="product">Product</label>
+              <select
+                name="purchase[productId]"
+                class="form-select mb-3"
+                id="product"
+              >
+                <% for (let product of products) { %>
+                <option value="<%= product._id %>"><%= product.name %></option>
+                <% } %>
+              </select>
+              <div class="row">
+                <div class="col">
+                  <label class="form-label" for="quantity">Quantity</label>
+                  <input
+                    class="form-control mb-3"
+                    type="number"
+                    id="quantity"
+                    name="purchase[quantity]"
+                    required
+                  />
+                </div>
+                <div class="col">
+                  <label class="form-label" for="price">Price</label>
+                  <input
+                    class="form-control mb-3"
+                    type="number"
+                    id="price"
+                    name="purchase[price]"
+                    step="0.01"
+                    required
+                  />
+                </div>
+              </div>
+              <label class="form-label" for="date">Date</label>
+              <input
+                class="form-control mb-4"
+                type="date"
+                id="date"
+                name="purchase[date]"
+                required
+              />
+              <button class="btn btn-outline-dark">&nbsp;Submit&nbsp;</button>
+            </form>
+          </div>
+        </div>
+
+        <!-- Display The Latest 10 Purchases -->
+        <div class="col-lg-7 px-5">
+          <div class="mb-5">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              The Latest 10 Purchases
+            </h3>
+            <table class="table table-sm text-center">
+              <thead>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+              </thead>
+              <% for (let purchase of purchases) { %>
+              <tbody>
+                <td>
+                  <a
+                    style="text-decoration: none"
+                    href="/products/<%= purchase.product._id %>"
+                    ><%= purchase.product.name %></a
+                  >
+                </td>
+                <td><%= purchase.quantity %></td>
+                <td><%= purchase.price.toFixed(2) %></td>
+                <td><%= purchase.total.toFixed(2) %></td>
+                <td><%= purchase.date.toDateString().slice(4) %></td>
+                <td>
+                  <form
+                    action="/purchase/<%= purchase._id %>/<%= purchase.product._id %>?_method=DELETE"
+                    method="POST"
+                  >
+                    <button class="btn btn-sm btn-outline-danger">
+                      Delete
+                    </button>
+                  </form>
+                </td>
+              </tbody>
+              <% } %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/bootstrab-script') %> <%-
+    include('partials/date-script') %> <%- include('partials/select-script') %>
+  </body>
+</html>

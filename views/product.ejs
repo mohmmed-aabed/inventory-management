@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+  <%- include('partials/head') %>
+
+  <body style="background-color: rgba(0, 0, 0, 0.05)">
+    <%- include('partials/header') %>
+
+    <div class="container mt-4">
+      <div class="row mb-4">
+        <!-- Dashboard -->
+        <div class="col-lg-8 px-5 mt-xl-4">
+          <div class="row mb-xl-4">
+            <div class="col-md-6 mb-2 mb-md-0">
+              <div class="px-2">
+                <h4 style="color: #2977c9; font-weight: 400">
+                  From: &nbsp;<strong><%= fromDate %></strong>
+                </h4>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2 mb-md-0">
+              <div class="px-2">
+                <h4 style="color: #2977c9; font-weight: 400">
+                  To: &nbsp;<strong><%= toDate %></strong>
+                </h4>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4 text-center">
+            <div class="col-md-6 col-xl-3 p-3">
+              <div class="card p-3" style="background-color: #c39bd3">
+                <div class="card-title"><h5>Purchases</h5></div>
+                <div class="card-text">
+                  <p style="font-size: 1.75rem">
+                    <strong><%= totalOfPurchases.toFixed(0) %> </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 p-3">
+              <div class="card p-3" style="background-color: #f7dc6f">
+                <div class="card-title"><h5>Sales</h5></div>
+                <div class="card-text">
+                  <p style="font-size: 1.75rem">
+                    <strong><%= totalOfSales.toFixed(0) %> </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 p-3">
+              <div class="card p-3" style="background-color: #82e0aa">
+                <div class="card-title">
+                  <h5>Profit</h5>
+                </div>
+                <div class="card-text">
+                  <p style="font-size: 1.75rem">
+                    <strong><%= totalOfProfits.toFixed(0) %> </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-md-6 col-xl-3 p-3">
+              <div class="card p-3" style="background-color: #85c1e9">
+                <div class="card-title"><h5>Stock Value</h5></div>
+                <div class="card-text">
+                  <p style="font-size: 1.75rem">
+                    <strong><%= totalOfStocks.toFixed(0) %> </strong>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Change Dates -->
+        <div class="col-lg-4 px-5">
+          <div class="mb-4">
+            <form action="/products/<%= product._id %>" method="POST">
+              <label class="form-label" for="bus">Bus Number</label>
+              <select name="bus" class="form-select mb-3" id="bus">
+                <option value="All">All</option>
+                <option value="1">Number 1</option>
+                <option value="2">Number 2</option>
+                <option value="3">Number 3</option>
+                <option value="4">Number 4</option>
+                <option value="5">Number 5</option>
+              </select>
+
+              <label class="form-label" for="fromDate">From Date</label>
+              <input
+                class="form-control mb-4"
+                type="date"
+                id="fromDate"
+                name="fromDate"
+                required
+                value="<%= fromDate %>"
+              />
+
+              <div class="row d-flex align-items-center">
+                <div class="col-xl-9">
+                  <label class="form-label" for="toDate">To Date</label>
+                  <input
+                    class="form-control mb-4"
+                    type="date"
+                    id="toDate"
+                    name="toDate"
+                    required
+                    value="<%= toDate %>"
+                  />
+                </div>
+
+                <div class="col-xl-3">
+                  <button class="btn btn-outline-dark">
+                    &nbsp;Filter&nbsp;
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- Display Purchases -->
+        <div class="col-lg-6 px-5">
+          <div class="mb-5">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              Purchases - <%= product.name %>
+            </h3>
+            <table class="table table-sm text-center">
+              <thead>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
+              </thead>
+              <% for (let purchase of purchases) { %>
+              <tbody>
+                <td>
+                  <a
+                    style="text-decoration: none"
+                    href="/products/<%= purchase.product._id %>"
+                    ><%= purchase.product.name %></a
+                  >
+                </td>
+                <td><%= purchase.quantity %></td>
+                <td><%= purchase.price.toFixed(2) %></td>
+                <td><%= purchase.total.toFixed(2) %></td>
+                <td><%= purchase.date.toDateString().slice(4) %></td>
+              </tbody>
+              <% } %>
+            </table>
+          </div>
+        </div>
+
+        <!-- Display Sales -->
+        <div class="col-lg-6 px-5">
+          <div class="mb-5">
+            <h3 class="display-6 mb-3" style="color: #2977c9">
+              Sales (<%= bus %>) - <%= product.name %>
+            </h3>
+            <table class="table table-sm text-center">
+              <thead>
+                <th scope="col">Product</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Total</th>
+                <th scope="col">Date</th>
+                <th scope="col">Profit</th>
+              </thead>
+              <% for (let sale of sales) { %>
+              <tbody>
+                <td>
+                  <a
+                    style="text-decoration: none"
+                    href="/<%= sale.product._id %>"
+                    ><%= sale.product.name %></a
+                  >
+                </td>
+                <td><%= sale.quantity %></td>
+                <td><%= sale.price.toFixed(2) %></td>
+                <td><%= sale.total.toFixed(2) %></td>
+                <td><%= sale.date.toDateString().slice(4) %></td>
+                <td><%= sale.profit.toFixed(2) %></td>
+              </tbody>
+              <% } %>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <%- include('partials/bootstrab-script') %>
+  </body>
+</html>

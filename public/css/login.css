@@ -1,0 +1,17 @@
+body {
+  height: 95vh;
+  background-image: linear-gradient(
+      to bottom,
+      rgba(240, 240, 240, 0.95),
+      rgba(240, 240, 240, 0.95)
+    ),
+    url("../img.jpg");
+  background-size: cover;
+}
+
+.row {
+  height: 95vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
