@@ -5,8 +5,11 @@ This repository implements Inventory Management System using Express.js and Mong
 This Application is designed to track both purchases and sales operations and to calculate the following numbers:
 
 •	Total Purchases
+
 •	Total Sales
+
 •	Total Profit
+
 •	Stock Value (Considering the average purchase price)
 
 When you open the home page, the previous numbers will be calculated (from the beginning of current month to the current day). This can be changed to any dates required.
